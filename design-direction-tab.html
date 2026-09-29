@@ -1,0 +1,372 @@
+<!-- ===== DESIGN DIRECTION TAB (start) =====
+     Paste this whole block right above </body>. To remove the tab, delete from here to the (end) line. -->
+<style>
+/* design direction tab */
+.dd-intro{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.dd-intro h2{font-size:24px;font-weight:800;margin-bottom:4px}
+.dd-intro p{margin:0;color:var(--muted);max-width:40em}
+.dd-tabs{display:flex;gap:8px;flex-wrap:wrap}
+.dd-tab{all:unset;box-sizing:border-box;cursor:pointer;font-family:var(--display);font-weight:700;font-size:14px;padding:8px 16px;border:2px solid var(--ink);border-radius:999px;background:#fff;display:inline-flex;align-items:center;gap:8px}
+.dd-tab:hover{background:var(--blush-2)}
+.dd-tab[aria-selected="true"]{background:var(--plum);color:#fff;box-shadow:3px 3px 0 var(--ink)}
+.dd-tab .star{font-size:12px;color:var(--strike)}
+.dd-tab[aria-selected="true"] .star{color:var(--blush)}
+.dd-panel{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:20px;align-items:start}
+.dd-panel[hidden]{display:none}
+.dd-frame{border:2px solid var(--ink);border-radius:14px;overflow:hidden;background:#fff;box-shadow:6px 6px 0 var(--ink)}
+.dd-chrome{display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:2px solid var(--ink);background:var(--blush-2)}
+.dd-chrome i{width:10px;height:10px;border-radius:50%;border:1.5px solid var(--ink);background:#fff}
+.dd-chrome i:first-child{background:var(--strike)}
+.dd-url{margin-left:10px;flex:1;max-width:320px;background:#fff;border:1.5px solid var(--ink);border-radius:999px;padding:1px 12px;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dd-screen{container-type:inline-size;aspect-ratio:16/10.5;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.dd-shot{display:block;position:relative;min-height:100%;background:var(--blush-2)}
+.dd-shot img{display:block;width:100%;height:auto;position:relative}
+.dd-shot .ld,.dd-shot .er{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:20px;color:var(--muted);font-family:var(--display);font-weight:700}
+.dd-shot .er{display:none;background:var(--blush-2)}
+.dd-shot.fail .er{display:grid}
+.dd-shot.fail img{visibility:hidden}
+.dd-info{display:flex;flex-direction:column;gap:14px}
+.dd-info h3{font-size:22px;font-weight:800}
+.dd-info p{margin:0;color:var(--muted)}
+.dd-badge{align-self:flex-start;font-family:var(--display);font-weight:700;font-size:12px;background:var(--strike);color:#fff;border:1.5px solid var(--ink);border-radius:999px;padding:2px 10px}
+.dd-meta small{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+.dd-sw{display:flex;gap:6px}
+.dd-sw i{width:34px;height:34px;border-radius:50%;border:2px solid var(--ink)}
+.dd-meta b{font-family:var(--display);font-size:15px}
+.dd-hint{font-size:13px;color:var(--muted)}
+.dd-info .db-row .db-btn{flex:1 1 auto}
+@media (max-width:1100px){.dd-panel{grid-template-columns:1fr}.dd-screen{aspect-ratio:16/11}}
+@media (max-width:640px){.dd-screen{aspect-ratio:3/4}}
+
+/* shared mockup base: 1em = 16px on a 1200px-wide screen, scales with the frame */
+.mk{font-size:1.3333cqw;line-height:1.45;min-height:100%}
+.mk *{box-sizing:border-box}
+.mk p{margin:0}
+
+/* ---------- 1. FOOD: Little Beet Pantry ---------- */
+.mk-food{--oat:#FFF4DC;--cuke:#1F4D2E;--chili:#E4472B;--butter:#FFD45C;--beet:#B8285F;--deep:#14261A;background:var(--oat);color:var(--deep);font-family:'Instrument Sans','Helvetica Neue',Arial,sans-serif}
+.mk-food .fx{font-family:'Bagel Fat One','Arial Black',sans-serif;font-weight:400;letter-spacing:-.01em;line-height:.95}
+.mk-food .f-bar{background:var(--chili);color:#fff;text-align:center;font-size:.8em;font-weight:600;padding:.45em}
+.mk-food .f-nav{display:flex;align-items:center;justify-content:space-between;padding:1.1em 3.5em}
+.mk-food .f-logo{font-size:1.9em;color:var(--beet)}
+.mk-food .f-links{display:flex;gap:2em;font-weight:600;font-size:.95em}
+.mk-food .f-cart{font-weight:600;background:var(--deep);color:var(--oat);border-radius:999px;padding:.45em 1.1em;font-size:.9em}
+.mk-food .f-hero{display:grid;grid-template-columns:1.05fr 1fr;gap:2em;padding:2.5em 3.5em 3.5em;align-items:center}
+.mk-food .f-h1{font-size:5.2em;color:var(--cuke)}
+.mk-food .f-sub{font-size:1.2em;margin:1.1em 0 1.6em;max-width:26em}
+.mk-food .f-ctas{display:flex;gap:.8em}
+.mk-food .f-btn{font-weight:600;padding:.85em 1.6em;border-radius:999px;background:var(--chili);color:#fff;border:.14em solid var(--deep);box-shadow:.25em .25em 0 var(--deep)}
+.mk-food .f-btn.alt{background:transparent;color:var(--deep);box-shadow:none}
+.mk-food .f-art{position:relative;height:27em;display:flex;align-items:flex-end;justify-content:center;gap:1em}
+.mk-food .f-sun{position:absolute;width:24em;height:24em;border-radius:50%;background:var(--butter);left:50%;top:48%;transform:translate(-50%,-50%)}
+.mk-food .jar{position:relative;width:8em;height:11em;border:.18em solid var(--deep);border-radius:1.4em 1.4em 2em 2em;background:var(--c,#B8285F);margin-top:1.4em;flex:none}
+.mk-food .jar::before{content:"";position:absolute;left:12%;right:12%;top:-1.5em;height:1.5em;background:var(--lid,#1F4D2E);border:.18em solid var(--deep);border-radius:.4em .4em .1em .1em}
+.mk-food .jar::after{content:"";position:absolute;left:14%;top:14%;width:.6em;height:40%;border-radius:1em;background:rgba(255,255,255,.35)}
+.mk-food .jar b{position:absolute;left:-.18em;right:-.18em;top:34%;background:var(--oat);border-block:.18em solid var(--deep);text-align:center;padding:.5em .2em;font-family:'Bagel Fat One',sans-serif;font-weight:400;font-size:1.05em;line-height:1}
+.mk-food .jar b small{display:block;font-family:'Instrument Sans',sans-serif;font-size:.55em;font-weight:600;margin-top:.3em}
+.mk-food .f-art .jar.big{width:10em;height:14em}
+.mk-food .f-art .jar.tilt{transform:rotate(6deg)}
+.mk-food .f-art .jar.tilt2{transform:rotate(-5deg)}
+.mk-food .f-sticker{position:absolute;right:0;top:1.5em;width:8.5em;height:8.5em;border-radius:50%;background:var(--beet);color:#fff;display:grid;place-items:center;text-align:center;padding:1em;font-weight:600;font-size:.9em;line-height:1.2;transform:rotate(12deg);border:.18em solid var(--deep)}
+.mk-food .f-strip{background:var(--cuke);color:var(--butter);white-space:nowrap;overflow:hidden;padding:.8em 0;font-size:1.5em}
+.mk-food .f-shop{padding:3.5em}
+.mk-food .f-shop-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1.5em}
+.mk-food .f-shop-h .fx{font-size:3em;color:var(--cuke)}
+.mk-food .f-shop-h span{font-weight:600;text-decoration:underline;text-underline-offset:.2em}
+.mk-food .f-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4em}
+.mk-food .f-card{background:#fff;border:.14em solid var(--deep);border-radius:1.4em;padding:1.2em;display:flex;flex-direction:column;gap:.5em}
+.mk-food .f-pic{height:12em;border-radius:1em;display:grid;place-items:end center;padding-bottom:1em;background:var(--bg,#FFE9B8)}
+.mk-food .f-pic .jar{font-size:.72em}
+.mk-food .f-card .nm{font-weight:600;font-size:1.1em}
+.mk-food .f-card .row{display:flex;justify-content:space-between;align-items:center}
+.mk-food .f-card .add{background:var(--deep);color:var(--oat);border-radius:999px;padding:.35em .9em;font-size:.85em;font-weight:600}
+.mk-food .f-tag{font-size:.8em;color:#4F6B55}
+.mk-food .f-recipe{margin:0 3.5em 3.5em;background:var(--cuke);color:var(--oat);border-radius:2em;display:grid;grid-template-columns:1fr 1fr;align-items:center;overflow:hidden}
+.mk-food .f-recipe .txt{padding:3em}
+.mk-food .f-recipe .fx{font-size:3em;color:var(--butter)}
+.mk-food .f-recipe p{margin:1em 0 1.5em;font-size:1.1em;max-width:24em}
+.mk-food .f-recipe .f-btn{display:inline-block;background:var(--butter);color:var(--deep)}
+.mk-food .bowl{position:relative;height:22em;background:var(--butter)}
+.mk-food .bowl .b{position:absolute;left:50%;top:50%;width:17em;height:17em;border-radius:50%;background:#fff;border:.2em solid var(--deep);transform:translate(-50%,-50%)}
+.mk-food .bowl .b i{position:absolute;border-radius:50%}
+.mk-food .f-foot{background:var(--deep);color:var(--oat);padding:2em 3.5em;display:flex;justify-content:space-between;font-size:.9em}
+.mk-food .f-foot .fx{font-size:1.6em;color:var(--butter)}
+
+/* ---------- 2. PRODUCTS: Stillwater Botanics ---------- */
+.mk-prod{--fog:#F4F6F3;--spruce:#1E3B36;--amber:#B5651D;--glacier:#DCE7E4;--lichen:#C3CFA9;background:var(--fog);color:var(--spruce);font-family:'Karla','Helvetica Neue',Arial,sans-serif}
+.mk-prod .px{font-family:'Marcellus',Georgia,serif;font-weight:400;letter-spacing:.01em;line-height:1.08}
+.mk-prod .p-nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:1.4em 3.5em;border-bottom:1px solid rgba(30,59,54,.18)}
+.mk-prod .p-links{display:flex;gap:2em;font-size:.95em}
+.mk-prod .p-logo{font-size:1.7em;letter-spacing:.06em}
+.mk-prod .p-right{justify-self:end;display:flex;gap:1.6em;font-size:.95em}
+.mk-prod .p-hero{display:grid;grid-template-columns:1fr 1.1fr;background:var(--glacier);min-height:34em}
+.mk-prod .p-copy{padding:5em 3.5em;display:flex;flex-direction:column;justify-content:center}
+.mk-prod .p-copy .px{font-size:4.6em}
+.mk-prod .p-copy p{font-size:1.2em;margin:1.2em 0 2em;max-width:22em;line-height:1.55}
+.mk-prod .p-btn{align-self:flex-start;background:var(--spruce);color:var(--fog);padding:1em 2em;border-radius:999px;font-weight:500}
+.mk-prod .p-note{font-size:.9em;margin-top:1em;opacity:.75}
+.mk-prod .p-art{position:relative;display:flex;justify-content:center;align-items:flex-end}
+.mk-prod .p-arch{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:20em;height:28em;background:var(--lichen);border-radius:10em 10em 0 0}
+.mk-prod .bottle{position:relative;margin-bottom:3em;width:var(--w,9em);height:var(--h,14em);background:var(--c,#B5651D);border-radius:1.2em 1.2em 1.4em 1.4em;flex:none}
+.mk-prod .bottle::before{content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:100%;width:38%;height:var(--neck,2.6em);background:var(--cap,#1E3B36);border-radius:.5em .5em 0 0}
+.mk-prod .bottle.drop::after{content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + var(--neck,2.6em));width:24%;height:3em;background:var(--cap,#1E3B36);border-radius:1.5em 1.5em .3em .3em}
+.mk-prod .bottle b{position:absolute;left:12%;right:12%;top:32%;bottom:18%;background:var(--fog);border-radius:.3em;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-family:'Marcellus',serif;font-weight:400;font-size:.95em;line-height:1.1;padding:.3em}
+.mk-prod .bottle b small{font-family:'Karla',sans-serif;font-size:.62em;margin-top:.4em;opacity:.75}
+.mk-prod .bottle.tub{border-radius:.8em}
+.mk-prod .bottle.tub::before{width:108%;height:1.8em;border-radius:.6em .6em .2em .2em}
+.mk-prod .p-hero .bottle{--w:10em;--h:16em;--neck:3em}
+.mk-prod .p-call{position:absolute;font-size:.9em;display:flex;align-items:center;gap:.6em;white-space:nowrap;line-height:1.3}
+.mk-prod .p-call::before{content:"";width:3.5em;border-top:1px solid var(--spruce)}
+.mk-prod .p-call::after{content:"";width:.55em;height:.55em;border-radius:50%;background:var(--spruce);flex:none}
+.mk-prod .p-call.l{right:calc(50% + 4.2em);flex-direction:row}
+.mk-prod .p-call.l>span{order:-1;text-align:right}
+.mk-prod .p-call.r{left:calc(50% + 4.2em)}
+.mk-prod .p-call.r::after{order:-2}
+.mk-prod .p-call.r::before{order:-1}
+.mk-prod .p-call b{font-weight:700;display:block}
+.mk-prod .p-sec{padding:4.5em 3.5em}
+.mk-prod .p-sec-h{display:flex;justify-content:space-between;align-items:end;margin-bottom:2em}
+.mk-prod .p-sec-h .px{font-size:2.8em}
+.mk-prod .p-sec-h span{text-decoration:underline;text-underline-offset:.25em}
+.mk-prod .p-rituals{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6em}
+.mk-prod .ritual{height:19em;border-radius:9em 9em .8em .8em;background:var(--c);display:flex;flex-direction:column;justify-content:flex-end;padding:2em;position:relative;overflow:hidden}
+.mk-prod .ritual .px{font-size:2em}
+.mk-prod .ritual p{font-size:.95em;margin-top:.3em}
+.mk-prod .ritual i{position:absolute;top:2.6em;left:50%;transform:translateX(-50%);width:5em;height:5em;border-radius:50%;background:var(--sun)}
+.mk-prod .p-best{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6em}
+.mk-prod .p-prod .pic{height:18em;background:#fff;border-radius:.8em;display:flex;align-items:flex-end;justify-content:center}
+.mk-prod .p-prod .pic .bottle{margin-bottom:2em}
+.mk-prod .p-prod .row{display:flex;justify-content:space-between;margin-top:1em;font-size:1.05em}
+.mk-prod .p-prod .px{font-size:1.35em}
+.mk-prod .p-prod .sub{font-size:.9em;opacity:.7}
+.mk-prod .p-trust{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(30,59,54,.18);border-bottom:1px solid rgba(30,59,54,.18);margin:0 3.5em}
+.mk-prod .p-trust div{padding:2em 1.5em;border-left:1px solid rgba(30,59,54,.18)}
+.mk-prod .p-trust div:first-child{border-left:0;padding-left:0}
+.mk-prod .p-trust .px{font-size:1.4em;margin-bottom:.3em}
+.mk-prod .p-trust p{font-size:.95em;opacity:.8}
+.mk-prod .p-foot{padding:3em 3.5em;display:flex;justify-content:space-between;align-items:end}
+.mk-prod .p-foot .px{font-size:4em;opacity:.9}
+
+/* ---------- 3. BOOKS: Rest Is a Skill ---------- */
+.mk-book{--night:#1B2447;--tang:#FF7A3D;--sky:#D6E4F4;--peach:#FFC9A3;--paper:#FFFFFF;background:var(--paper);color:var(--night);font-family:'Libre Franklin','Helvetica Neue',Arial,sans-serif}
+.mk-book .bx{font-family:'Gloock',Georgia,serif;font-weight:400;line-height:1.02;letter-spacing:-.01em}
+.mk-book .b-top{background:var(--night);color:var(--sky)}
+.mk-book .b-nav{display:flex;justify-content:space-between;align-items:center;padding:1.3em 3.5em}
+.mk-book .b-nav .bx{font-size:1.6em;color:#fff}
+.mk-book .b-links{display:flex;gap:2em;align-items:center;font-size:.95em}
+.mk-book .b-pre{background:var(--tang);color:var(--night);font-weight:600;padding:.55em 1.3em;border-radius:.4em}
+.mk-book .b-hero{display:grid;grid-template-columns:1fr 1.15fr;gap:3em;padding:2.5em 3.5em 5em;align-items:center}
+.mk-book .cover-wrap{display:flex;justify-content:center;position:relative}
+.mk-book .cover-wrap::before{content:"";position:absolute;width:26em;height:26em;border-radius:50%;background:radial-gradient(circle,rgba(255,122,61,.45),rgba(255,122,61,0) 68%);top:50%;left:50%;transform:translate(-50%,-50%)}
+.mk-book .cover{position:relative;width:19em;height:28em;background:var(--peach);border-radius:.2em .6em .6em .2em;box-shadow:inset .7em 0 0 rgba(27,36,71,.12),inset .9em 0 0 rgba(255,255,255,.25),1.4em 1.6em 2.5em rgba(0,0,0,.45);transform:rotate(-4deg);overflow:hidden;padding:2.2em 2em;display:flex;flex-direction:column}
+.mk-book .cover .bx{font-size:3.4em;color:var(--night)}
+.mk-book .cover .sun{position:absolute;left:50%;bottom:-6em;transform:translateX(-50%);width:17em;height:17em;border-radius:50%;background:var(--tang)}
+.mk-book .cover .line{position:absolute;left:0;right:0;bottom:4.4em;border-top:.2em solid var(--night)}
+.mk-book .cover .au{margin-top:auto;position:relative;z-index:1;font-weight:600;letter-spacing:.04em;color:var(--night)}
+.mk-book .cover .sub{color:var(--night);position:relative;z-index:1;font-size:.85em;margin-top:.8em;max-width:12em;line-height:1.3}
+.mk-book .b-copy .lead{font-size:1em;color:var(--peach)}
+.mk-book .b-copy .bx{font-size:4.2em;color:#fff;margin:.3em 0 .45em}
+.mk-book .b-copy p{font-size:1.15em;line-height:1.6;max-width:28em}
+.mk-book .b-buy{margin-top:2em}
+.mk-book .b-buy small{display:block;font-size:.85em;margin-bottom:.7em;color:var(--peach)}
+.mk-book .b-shops{display:flex;flex-wrap:wrap;gap:.6em}
+.mk-book .b-shops span{border:1px solid rgba(214,228,244,.5);color:#fff;border-radius:.4em;padding:.6em 1.1em;font-weight:500;font-size:.95em}
+.mk-book .b-shops span:first-child{background:var(--tang);color:var(--night);border-color:var(--tang)}
+.mk-book .b-praise{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:2.5em;padding:4.5em 3.5em;border-bottom:1px solid rgba(27,36,71,.15)}
+.mk-book .b-praise .bx{font-size:1.7em;line-height:1.2}
+.mk-book .b-praise .q1 .bx{font-size:2.6em}
+.mk-book .b-praise p{margin-top:1em;font-size:.9em;color:#56607F}
+.mk-book .b-inside{display:grid;grid-template-columns:1.2fr 1fr;gap:3em;padding:4.5em 3.5em}
+.mk-book .b-inside .h{font-size:2.8em;margin-bottom:.8em}
+.mk-book .b-ch{display:grid;grid-template-columns:3em 1fr;gap:1em;padding:1.1em 0;border-top:1px solid rgba(27,36,71,.15)}
+.mk-book .b-ch .n{font-family:'Gloock',serif;font-size:1.6em;color:var(--tang);line-height:1}
+.mk-book .b-ch b{display:block;font-size:1.15em;font-weight:600}
+.mk-book .b-ch span{font-size:.95em;color:#56607F}
+.mk-book .b-news{background:var(--sky);border-radius:1em;padding:2.5em;align-self:start;position:relative;overflow:hidden}
+.mk-book .b-news .bx{font-size:2.3em;max-width:9em}
+.mk-book .b-news p{margin:1em 0 1.5em;line-height:1.55}
+.mk-book .b-news .in{display:flex;background:#fff;border-radius:.4em;padding:.35em;gap:.4em}
+.mk-book .b-news .in span{flex:1;padding:.6em .8em;color:#8A93AE}
+.mk-book .b-news .in b{background:var(--night);color:#fff;padding:.6em 1.2em;border-radius:.3em;font-weight:600}
+.mk-book .b-news .moon{position:absolute;right:-2em;top:-2em;width:7em;height:7em;border-radius:50%;box-shadow:-1.3em 1.3em 0 0 var(--tang)}
+.mk-book .b-about{background:var(--night);color:var(--sky);display:grid;grid-template-columns:auto 1fr;gap:3em;align-items:center;padding:4em 3.5em}
+.mk-book .portrait{width:13em;height:13em;border-radius:50%;background:var(--peach);position:relative;overflow:hidden}
+.mk-book .portrait i{position:absolute;border-radius:50%;background:var(--night)}
+.mk-book .b-about .bx{font-size:2.4em;color:#fff;margin-bottom:.4em}
+.mk-book .b-about p{max-width:36em;line-height:1.6}
+.mk-book .b-about .tags{display:flex;gap:.6em;margin-top:1.2em;flex-wrap:wrap}
+.mk-book .b-about .tags span{border:1px solid rgba(214,228,244,.4);border-radius:999px;padding:.35em 1em;font-size:.9em}
+
+</style>
+<template id="db-mockups">
+<div data-mk="1"><div class="mk mk-food" aria-hidden="true">
+ <div class="f-bar">Free local delivery in Montréal on orders over $60</div>
+ <div class="f-nav"><span class="f-logo fx">little beet</span><span class="f-links"><span>Shop</span><span>Bundles</span><span>Recipes</span><span>Our kitchen</span></span><span class="f-cart">Cart (2)</span></div>
+ <div class="f-hero">
+  <div><div class="f-h1 fx">Pantry food that loves you back.</div><p class="f-sub">Small-batch ferments, broths and granola, made in Montréal with vegetables from farms we can drive to.</p><div class="f-ctas"><span class="f-btn">Shop the pantry</span><span class="f-btn alt">Build a bundle</span></div></div>
+  <div class="f-art"><div class="f-sun"></div>
+   <div class="jar tilt2" style="--c:#F2B233;--lid:#E4472B"><b>golden<small>bone broth</small></b></div>
+   <div class="jar big" style="--c:#B8285F;--lid:#1F4D2E"><b>beet kraut<small>live &amp; raw</small></b></div>
+   <div class="jar tilt" style="--c:#C98B4A;--lid:#B8285F"><b>maple<small>granola</small></b></div>
+   <div class="f-sticker">Good for your gut. Great on toast.</div>
+  </div>
+ </div>
+ <div class="f-strip fx">&nbsp;cabbage ✺ beets ✺ turmeric ✺ oats ✺ maple ✺ ginger ✺ garlic ✺ chili ✺ cabbage ✺ beets ✺ turmeric</div>
+ <div class="f-shop"><div class="f-shop-h"><span class="fx">Bestsellers</span><span>See all 24</span></div>
+  <div class="f-grid">
+   <div class="f-card"><div class="f-pic" style="--bg:#FBD3E0"><div class="jar" style="--c:#B8285F;--lid:#1F4D2E"><b>beet kraut</b></div></div><span class="nm">Beet &amp; ginger kraut</span><span class="f-tag">Raw, unpasteurized, 500 ml</span><div class="row"><b>$12</b><span class="add">Add</span></div></div>
+   <div class="f-card"><div class="f-pic" style="--bg:#FFE9B8"><div class="jar" style="--c:#F2B233;--lid:#E4472B"><b>golden</b></div></div><span class="nm">Golden turmeric broth</span><span class="f-tag">Slow-simmered 24 hours, 750 ml</span><div class="row"><b>$18</b><span class="add">Add</span></div></div>
+   <div class="f-card"><div class="f-pic" style="--bg:#F3E1CC"><div class="jar" style="--c:#C98B4A;--lid:#B8285F"><b>maple</b></div></div><span class="nm">Maple tahini granola</span><span class="f-tag">No refined sugar, 400 g</span><div class="row"><b>$14</b><span class="add">Add</span></div></div>
+   <div class="f-card"><div class="f-pic" style="--bg:#FAD0C7"><div class="jar" style="--c:#E4472B;--lid:#14261A"><b>chili crisp</b></div></div><span class="nm">Garlic chili crisp</span><span class="f-tag">Medium heat, 250 ml</span><div class="row"><b>$13</b><span class="add">Add</span></div></div>
+  </div></div>
+ <div class="f-recipe"><div class="txt"><div class="fx">Tonight: kraut grain bowl</div><p>Fifteen minutes, one pot, and half a jar of kraut. Our recipes use what's already in your pantry.</p><span class="f-btn">Get the recipe</span></div>
+  <div class="bowl"><div class="b"><i style="left:12%;top:18%;width:40%;height:40%;background:#C98B4A"></i><i style="right:12%;top:16%;width:36%;height:36%;background:#B8285F"></i><i style="left:30%;bottom:10%;width:42%;height:38%;background:#7FAE5A"></i><i style="left:44%;top:40%;width:18%;height:18%;background:#F2B233;border:.2em solid #fff"></i></div></div></div>
+ <div class="f-foot"><span class="fx">little beet</span><span>Made in Montréal. Delivered across Québec &amp; Ontario.</span></div>
+</div></div>
+
+<div data-mk="2"><div class="mk mk-prod" aria-hidden="true">
+ <div class="p-nav"><span class="p-links"><span>Shop</span><span>Rituals</span><span>Ingredients</span><span>Journal</span></span><span class="p-logo px">Stillwater</span><span class="p-right"><span>Search</span><span>Account</span><span>Bag (1)</span></span></div>
+ <div class="p-hero">
+  <div class="p-copy"><div class="px">Slow evenings, bottled.</div><p>Magnesium body oil for sore muscles and busy heads. Five ingredients, all of them on the label.</p><span class="p-btn">Shop the evening ritual</span><span class="p-note">Free shipping on orders over $75</span></div>
+  <div class="p-art"><div class="p-arch"></div>
+   <div class="bottle drop"><b>Evening<br>body oil<small>50 ml</small></b></div>
+   <span class="p-call l" style="top:40%"><span><b>Magnesium chloride</b>Eases tight muscles</span></span>
+   <span class="p-call r" style="top:54%"><span><b>Lavender from Estrie</b>Grown two hours away</span></span>
+   <span class="p-call l" style="top:70%"><span><b>Cold-pressed jojoba</b>Absorbs in a minute</span></span>
+  </div>
+ </div>
+ <div class="p-sec"><div class="p-sec-h"><span class="px">Shop by ritual</span><span>All products</span></div>
+  <div class="p-rituals">
+   <div class="ritual" style="--c:#F1E3C8;--sun:#E7B864"><i></i><span class="px">Morning</span><p>Wake up your skin and your brain.</p></div>
+   <div class="ritual" style="--c:#C9D3E3;--sun:#F4F6F3"><i></i><span class="px">Evening</span><p>Wind down before the screen does.</p></div>
+   <div class="ritual" style="--c:#C3CFA9;--sun:#8FA573"><i></i><span class="px">After a workout</span><p>Recovery for the parts that ache.</p></div>
+  </div></div>
+ <div class="p-sec" style="padding-top:0"><div class="p-sec-h"><span class="px">Most loved</span><span>See all 12</span></div>
+  <div class="p-best">
+   <div class="p-prod"><div class="pic"><div class="bottle drop" style="--w:7em;--h:11em;--neck:2em"><b>Evening<br>oil</b></div></div><div class="row"><span class="px">Evening body oil</span><b>$38</b></div><span class="sub">Magnesium + lavender, 50 ml</span></div>
+   <div class="p-prod"><div class="pic"><div class="bottle tub" style="--w:10em;--h:7em;--c:#DCE7E4"><b style="top:22%;bottom:20%">Muscle<br>butter</b></div></div><div class="row"><span class="px">Muscle butter</span><b>$32</b></div><span class="sub">Arnica + shea, 120 g</span></div>
+   <div class="p-prod"><div class="pic"><div class="bottle" style="--w:5.5em;--h:13em;--neck:2.4em;--c:#6F8A7B"><b>Sleep<br>drops</b></div></div><div class="row"><span class="px">Sleep drops</span><b>$29</b></div><span class="sub">Chamomile + passionflower, 30 ml</span></div>
+  </div></div>
+ <div class="p-trust"><div><div class="px">Third-party tested</div><p>Every batch, with the results posted online.</p></div><div><div class="px">Made in Québec</div><p>Small batches, poured by hand in Sherbrooke.</p></div><div><div class="px">Refill program</div><p>Send back empties, get 15% off your next order.</p></div></div>
+ <div class="p-foot"><span class="px">Stillwater</span><span style="display:flex;gap:2em"><span>Journal</span><span>Stockists</span><span>Contact</span></span></div>
+</div></div>
+
+<div data-mk="3"><div class="mk mk-book" aria-hidden="true">
+ <div class="b-top">
+  <div class="b-nav"><span class="bx">Noor Adeyemi</span><span class="b-links"><span>The book</span><span>Speaking</span><span>Newsletter</span><span>About</span><span class="b-pre">Pre-order</span></span></div>
+  <div class="b-hero">
+   <div class="cover-wrap"><div class="cover"><span class="bx">Rest Is a Skill</span><span class="sub">How to recover, sleep and slow down without quitting your life</span><div class="sun"></div><div class="line"></div><span class="au">NOOR ADEYEMI</span></div></div>
+   <div class="b-copy"><span class="lead">The new book, out January 12, 2027</span><div class="bx">A practical guide to resting like you mean it.</div><p>Seven nights, forty small habits, and not a single 5 a.m. routine. Written for people who are tired of being told to try harder at relaxing.</p>
+    <div class="b-buy"><small>Pre-order now</small><div class="b-shops"><span>Bookshop.org</span><span>Indigo</span><span>Les Libraires</span><span>Amazon</span><span>Audiobook</span></div></div></div>
+  </div>
+ </div>
+ <div class="b-praise">
+  <div class="q1"><div class="bx">"The first wellness book that made me feel less guilty, not more."</div><p>Dr. Hana Leclerc, sleep researcher</p></div>
+  <div><div class="bx">"Kind, funny and wildly useful."</div><p>Maya Chen, author of Soft Hours</p></div>
+  <div><div class="bx">"I read it in one sitting, then took a nap."</div><p>The Morning Pages podcast</p></div>
+ </div>
+ <div class="b-inside"><div><div class="bx h">Inside the book</div>
+   <div class="b-ch"><span class="n">1</span><div><b>Why you're still tired</b><span>What rest actually is, and why sleep alone isn't it.</span></div></div>
+   <div class="b-ch"><span class="n">2</span><div><b>The seven-night reset</b><span>One small change per night. No apps, no gadgets.</span></div></div>
+   <div class="b-ch"><span class="n">3</span><div><b>Rest at work</b><span>Scripts for taking breaks without feeling lazy.</span></div></div>
+   <div class="b-ch"><span class="n">4</span><div><b>Keeping it going</b><span>What to do when life gets loud again.</span></div></div>
+  </div>
+  <div class="b-news"><div class="moon"></div><div class="bx">Get the free seven-night plan</div><p>A printable guide from the book, plus one short letter a month from Noor.</p><div class="in"><span>Your email</span><b>Send it</b></div></div>
+ </div>
+ <div class="b-about"><div class="portrait"><i style="left:30%;top:18%;width:40%;height:40%"></i><i style="left:14%;top:62%;width:72%;height:60%"></i></div>
+  <div><div class="bx">Hi, I'm Noor.</div><p>I'm a former ER nurse turned rest coach. I spent ten years running on empty, then another five learning how to stop. This book is everything I wish someone had told me earlier.</p><div class="tags"><span>Keynotes</span><span>Workshops</span><span>Podcast guest</span></div></div>
+ </div>
+</div></div>
+</template>
+<script>
+/* Design direction tab add-on. Reads the same Google Sheet as the dashboard.
+   It never changes the dashboard code: it waits for the dashboard to appear, then adds its own tab. */
+(function(){
+var DEF={
+ "Menu: Design":"Design direction",
+ "Design title":"Three directions for your site",
+ "Design text":"Look through each one, then tell me which feels most like you. We'll make it yours from there: your colors, your photos, your words.",
+ "Design 1 name":"Food","Design 1 title":"Little Beet Pantry","Design 1 text":"Bright, hungry and friendly. Chunky type, illustrated jars and bestsellers right up top. Made for snacks, ferments, drinks and pantry goods.",
+ "Design 2 name":"Products","Design 2 title":"Stillwater Botanics","Design 2 text":"Calm and considered. Lots of breathing room, arched shapes, and callouts that explain what's inside each product. Made for skincare, supplements and body care.",
+ "Design 3 name":"Books","Design 3 title":"Rest Is a Skill","Design 3 text":"Editorial and warm. The cover leads, with pre-order links, praise and a newsletter sign-up right underneath. Made for authors, cookbooks and courses.",
+ "Design colors label":"Colors","Design fonts label":"Fonts","Design pick button":"I like this one","Design picked label":"Your pick",
+ "Design link button":"Open live preview","Design loading text":"Loading the preview...","Design error text":"The preview couldn't load here. Open it in a new tab instead.",
+ "Design scroll hint":"Scroll inside the window to see the whole page.","Design shot hint":"This is a snapshot. Open the live preview to click around the real store."
+};
+[1,2,3].forEach(function(n){["link","image","colors","fonts"].forEach(function(f){DEF["Design "+n+" "+f]=""})});
+var BUILT=[{url:'littlebeet.ca',colors:['#FFF4DC','#1F4D2E','#E4472B','#FFD45C','#B8285F'],fonts:'Bagel Fat One + Instrument Sans'},
+ {url:'stillwaterbotanics.com',colors:['#F4F6F3','#1E3B36','#DCE7E4','#C3CFA9','#B5651D'],fonts:'Marcellus + Karla'},
+ {url:'nooradeyemi.com',colors:['#1B2447','#FF7A3D','#FFC9A3','#D6E4F4','#FFFFFF'],fonts:'Gloock + Libre Franklin'}];
+
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function parse(t){var rows=[],row=[],f='',q=false;for(var i=0;i<t.length;i++){var c=t[i];
+ if(q){if(c=='"'){if(t[i+1]=='"'){f+='"';i++}else q=false}else f+=c}
+ else if(c=='"')q=true;else if(c==','){row.push(f);f=''}else if(c=='\n'||c=='\r'){if(c=='\r'&&t[i+1]=='\n')i++;row.push(f);rows.push(row);row=[];f=''}else f+=c}
+ if(f!==''||row.length){row.push(f);rows.push(row)}return rows}
+function key(){var q=new URLSearchParams(location.search).get('c');if(q)return q.trim().toLowerCase();
+ var p=location.pathname.replace(/^\/+|\/+$/g,'').split('/')[0];return p&&p!=='index.html'?decodeURIComponent(p).toLowerCase():''}
+function get(u){return u?fetch(u+(u.indexOf('?')<0?'?':'&')+'t='+Date.now()).then(function(r){if(!r.ok)throw 0;return r.text()}).catch(function(){return ''}):Promise.resolve('')}
+
+var T={},C={links:{},pick:''};for(var d in DEF)T[d]=DEF[d];
+function load(){var S=window.SHEETS||{},k=key();
+ return Promise.all([get(S.studio),get(S.clients)]).then(function(res){
+  parse(res[0]).forEach(function(r){var l=(r[0]||'').trim();if(T.hasOwnProperty(l)&&(r[1]||'').trim())T[l]=r[1].trim()});
+  var rows=parse(res[1]),kr=rows.filter(function(r){return (r[0]||'').trim().toLowerCase()==='private link code'})[0],col=-1;
+  if(kr&&k)for(var i=1;i<kr.length;i++)if((kr[i]||'').trim().toLowerCase()===k)col=i;
+  if(col>0)rows.forEach(function(r){var l=(r[0]||'').trim().toLowerCase(),v=(r[col]||'').trim();
+   var m=l.match(/^link: design ([123])$/);if(m&&v)C.links[m[1]]=v;if(l==='design pick')C.pick=v.toLowerCase()});
+ })}
+
+var ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.7-.9 1.4-1.9-.3-.9.2-1.9 1.2-1.9H17a4 4 0 0 0 4-4c0-5.1-4-10.2-9-10.2z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10.5" cy="7" r="1"/><circle cx="15.5" cy="8" r="1"/></svg>';
+
+function view(mail){var t=function(k){return esc(T[k]||'')},picked=0;
+ [1,2,3].forEach(function(n){var p=C.pick;if(p&&(p===String(n)||p===(T['Design '+n+' name']||'').toLowerCase()||p===(T['Design '+n+' title']||'').toLowerCase()))picked=n});
+ var first=picked||1;
+ return '<div class="db-card dd-intro"><div><h2>'+t('Design title')+'</h2><p>'+t('Design text')+'</p></div>'+
+  '<div class="dd-tabs" role="tablist" aria-label="Design mockups">'+[1,2,3].map(function(n){return '<button class="dd-tab" type="button" role="tab" id="dd-tab-'+n+'" aria-controls="dd-panel-'+n+'" aria-selected="'+(n===first)+'" tabindex="'+(n===first?0:-1)+'" data-dd="'+n+'">'+t('Design '+n+' name')+(n===picked?'<span class="star" aria-label="'+t('Design picked label')+'">&#9733;</span>':'')+'</button>'}).join('')+'</div></div>'+
+  [1,2,3].map(function(n){var b=BUILT[n-1],nm=T['Design '+n+' name']||'',lk=(C.links[n]||T['Design '+n+' link']||'').trim(),img=(T['Design '+n+' image']||'').trim();
+   if(lk&&!/^https?:\/\//i.test(lk))lk='https://'+lk;
+   var host=lk?lk.replace(/^https?:\/\//i,'').split(/[\/?#]/)[0]:b.url;
+   var cols=(T['Design '+n+' colors']||'').split(/[,\s]+/).filter(function(c){return /^#?[0-9a-f]{3,8}$/i.test(c)}).map(function(c){return c.charAt(0)==='#'?c:'#'+c});
+   if(!cols.length&&!lk)cols=b.colors;
+   var fonts=(T['Design '+n+' fonts']||'').trim()||(lk?'':b.fonts);
+   var shot=img||(lk?'https://image.thum.io/get/width/1200/crop/1600/noanimate/'+lk:'');
+   return '<div class="dd-panel mt" role="tabpanel" id="dd-panel-'+n+'" aria-labelledby="dd-tab-'+n+'" data-dd-panel="'+n+'"'+(n===first?'':' hidden')+'>'+
+    '<div class="dd-frame"><div class="dd-chrome" aria-hidden="true"><i></i><i></i><i></i><span class="dd-url">'+esc(host)+'</span></div>'+
+    '<div class="dd-screen" tabindex="0" role="region" aria-label="'+esc(nm)+' website mockup" data-dd-screen="'+n+'">'+
+    (shot?'<a class="dd-shot" href="'+esc(lk||img)+'" target="_blank" rel="noopener"><span class="ld">'+t('Design loading text')+'</span><span class="er">'+t('Design error text')+'</span><img loading="lazy" alt="Preview of the '+esc(nm)+' design" src="'+esc(shot)+'"></a>':'')+'</div></div>'+
+    '<div class="db-card dd-info">'+(n===picked?'<span class="dd-badge">'+t('Design picked label')+'</span>':'')+'<h3>'+t('Design '+n+' title')+'</h3><p>'+t('Design '+n+' text')+'</p>'+
+    (cols.length?'<div class="dd-meta"><small>'+t('Design colors label')+'</small><div class="dd-sw">'+cols.map(function(c){return '<i style="background:'+esc(c)+'" title="'+esc(c)+'"></i>'}).join('')+'</div></div>':'')+
+    (fonts?'<div class="dd-meta"><small>'+t('Design fonts label')+'</small><b>'+esc(fonts)+'</b></div>':'')+
+    '<div class="db-row"><a class="db-btn" href="'+esc(mail)+'?subject='+encodeURIComponent('Design direction: '+nm)+'&amp;body='+encodeURIComponent('Hi! I like the '+nm+' direction.\n\n')+'">'+t('Design pick button')+'</a>'+
+    (lk?'<a class="db-btn white" href="'+esc(lk)+'" target="_blank" rel="noopener">'+t('Design link button')+'</a>':'')+'</div>'+
+    '<span class="dd-hint">'+t(shot?'Design shot hint':'Design scroll hint')+'</span></div></div>'}).join('')}
+
+var fontsLoaded=false;
+function fillMockups(root){if(!fontsLoaded){fontsLoaded=true;var l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Instrument+Sans:wght@400;600&family=Marcellus&family=Karla:wght@400;500;700&family=Gloock&family=Libre+Franklin:wght@400;500;600&display=swap';document.head.appendChild(l)}
+ var tp=document.getElementById('db-mockups'),box=document.createElement('div');box.innerHTML=tp?tp.innerHTML:'';
+ [].forEach.call(root.querySelectorAll('[data-dd-screen]'),function(sc){if(sc.children.length)return;var src=box.querySelector('[data-mk="'+sc.getAttribute('data-dd-screen')+'"]');if(src)sc.innerHTML=src.innerHTML});
+ [].forEach.call(root.querySelectorAll('.dd-shot img'),function(im){im.addEventListener('error',function(){im.parentNode.classList.add('fail')})})}
+
+function build(){var db=document.getElementById('db');if(!db)return;
+ var nav=db.querySelector('.db-nav'),main=db.querySelector('.db-main');
+ if(!nav||!main||nav.querySelector('[data-dd-tab]'))return;
+ var mailA=db.querySelector('.db-sidehelp a,.db-top .db-btn'),mail=mailA?mailA.getAttribute('href').split('?')[0]:'mailto:';
+ var a=document.createElement('a');a.href='#design';a.setAttribute('data-dd-tab','');a.innerHTML=ICON+esc(T['Menu: Design']);
+ var prog=nav.querySelector('[data-tab="progress"]');if(prog&&prog.nextSibling)nav.insertBefore(a,prog.nextSibling);else nav.appendChild(a);
+ var sec=document.createElement('section');sec.className='db-view';sec.setAttribute('data-view','design');sec.innerHTML=view(mail);main.appendChild(sec);
+ function open(){[].forEach.call(db.querySelectorAll('.db-view'),function(x){x.classList.toggle('on',x===sec)});
+  [].forEach.call(nav.querySelectorAll('a'),function(x){x.classList.toggle('on',x===a);x.setAttribute('aria-current',x===a?'page':'false')});
+  fillMockups(sec)}
+ a.addEventListener('click',function(e){e.preventDefault();open();try{history.replaceState(null,'','#design')}catch(x){}window.scrollTo(0,0)});
+ function pick(n,focus){[].forEach.call(sec.querySelectorAll('.dd-tab'),function(b){var on=b.getAttribute('data-dd')===String(n);b.setAttribute('aria-selected',on);b.tabIndex=on?0:-1;if(on&&focus)b.focus()});
+  [].forEach.call(sec.querySelectorAll('[data-dd-panel]'),function(p){p.hidden=p.getAttribute('data-dd-panel')!==String(n)})}
+ [].forEach.call(sec.querySelectorAll('.dd-tab'),function(b){b.addEventListener('click',function(){pick(b.getAttribute('data-dd'))});
+  b.addEventListener('keydown',function(e){var n=+b.getAttribute('data-dd');if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();pick((n+(e.key==='ArrowRight'?0:1))%3+1,true)}})});
+ if(location.hash==='#design')open()}
+
+function start(){load().then(function(){build();var db=document.getElementById('db');if(db)new MutationObserver(build).observe(db,{childList:true})})}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+})();
+</script>
+<!-- ===== DESIGN DIRECTION TAB (end) ===== -->
